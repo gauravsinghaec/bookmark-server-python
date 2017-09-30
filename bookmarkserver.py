@@ -44,7 +44,7 @@
 import http.server
 import requests
 from urllib.parse import unquote, parse_qs
-
+import os
 
 memory = {}
 
@@ -146,11 +146,12 @@ class Shortener(http.server.BaseHTTPRequestHandler):
 
 if __name__ == '__main__':
     try:    
-        port = 8000
+        #port = 8000
+        port = int(os.environ.get('PORT'))
         server_address = ('', port)
         httpd = http.server.HTTPServer(server_address, Shortener)
         print ("Web Server running on port %s" % port)
         httpd.serve_forever()
     except KeyboardInterrupt:
         print (" ^C entered, stopping web server....")
-        server.socket.close()
+        httpd.socket.close()
